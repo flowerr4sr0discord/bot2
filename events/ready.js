@@ -7,6 +7,9 @@ module.exports = {
         console.log(`🤖 Logged in as ${client.user.tag}`);
         console.log(`🆔 Bot ID: ${client.user.id}`);
         console.log(`🌐 Servers: ${client.guilds.cache.size}`);
+        console.log(
+            `📦 Commands loaded: ${client.commands.size}`
+        );
         console.log("================================");
     }
 };
