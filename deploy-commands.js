@@ -31,17 +31,20 @@ const rest = new REST({
 (async () => {
     try {
         console.log(
-            `🔄 Registering ${commands.length} global command(s)...`
+            `🔄 Registering ${commands.length} guild command(s)...`
         );
 
         await rest.put(
-            Routes.applicationCommands(process.env.CLIENT_ID),
+            Routes.applicationGuildCommands(
+                process.env.CLIENT_ID,
+                process.env.GUILD_ID
+            ),
             {
                 body: commands
             }
         );
 
-        console.log("✅ Global commands registered!");
+        console.log("✅ Guild commands registered!");
     } catch (error) {
         console.error(error);
     }
