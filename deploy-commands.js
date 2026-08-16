@@ -10,18 +10,28 @@ const {
 
 const commands = [];
 
-const commandsPath = path.join(__dirname, "commands");
+const commandsPath =
+    path.join(__dirname, "commands");
 
-const commandFiles = fs
-    .readdirSync(commandsPath)
-    .filter(file => file.endsWith(".js"));
+const commandFiles =
+    fs
+        .readdirSync(commandsPath)
+        .filter(file => file.endsWith(".js"));
 
 for (const file of commandFiles) {
-    const command = require(
-        path.join(commandsPath, file)
-    );
+    const command =
+        require(path.join(commandsPath, file));
 
-    commands.push(command.data.toJSON());
+    if (command.global === false) {
+        commands.push(command.data.toJSON());
+    }
+}
+
+if (!process.env.GUILD_ID) {
+    console.error(
+        "❌ GUILD_ID is missing from .env!"
+    );
+    process.exit(1);
 }
 
 const rest = new REST({
@@ -44,7 +54,10 @@ const rest = new REST({
             }
         );
 
-        console.log("✅ Guild commands registered!");
+        console.log(
+            "✅ Guild commands registered!"
+        );
+
     } catch (error) {
         console.error(error);
     }
